@@ -4,8 +4,8 @@ description: Learn how to control the color of BuildKit progress output.
 keywords: build, buildx buildkit, color, terminal
 ---
 
-BuildKit and Buildx has support for modifying the colors that are used to output
-information to the terminal. You can set the environment variable
+BuildKit and Buildx have support for modifying the colors that are used to
+output information to the terminal. You can set the environment variable
 `BUILDKIT_COLORS` to something like `run=123,20,245:error=yellow:cancel=blue:warning=white`
 to set the colors that you would like to use:
 
