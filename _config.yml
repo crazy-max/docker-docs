@@ -203,13 +203,16 @@ fetch-remote:
     default_branch: "main"
     ref: "main"
     paths:
+      - dest: "registry"
+        src:
+          - "docs/**"
+          - "!docs/README.md"
+          - "!docs/spec"
       - dest: "registry/spec"
         src:
           - "docs/spec/**"
           - "!docs/spec/api.md.tmpl"
-      - dest: "registry"
-        src:
-          - "docs/configuration.md"
+          - "!docs/spec/menu.md"
 
   - repo: "https://github.com/moby/buildkit"
     default_branch: "master"
