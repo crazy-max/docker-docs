@@ -1,6 +1,7 @@
 # syntax=docker/dockerfile:1
 
 ARG GO_VERSION=1.21
+ARG HTMLTEST_VERSION=0.17.0
 
 FROM golang:${GO_VERSION}-alpine as base
 WORKDIR /src
@@ -37,7 +38,7 @@ USER root
 RUN --mount=type=bind,target=. \
     /usr/local/bin/markdownlint-cli2 content/**/*.md
 
-FROM wjdp/htmltest:v0.17.0 as test
+FROM wjdp/htmltest:v${HTMLTEST_VERSION} as test
 WORKDIR /test
 COPY --from=build /out ./public
 ADD .htmltest.yml .htmltest.yml
@@ -53,3 +54,18 @@ RUN hugo mod vendor
 FROM scratch as vendor
 COPY --from=update-modules /src/_vendor /_vendor
 COPY --from=update-modules /src/go.* /
+
+FROM build-base as build-upstream
+ARG MODULE_NAME
+ARG REPO
+ARG COMMIT
+ENV HUGO_MODULE_REPLACEMENTS="github.com/${MODULE_NAME} -> github.com/${REPO} ${COMMIT}"
+RUN hugo --ignoreVendorPaths "github.com/${MODULE_NAME}" -d /out
+
+FROM wjdp/htmltest:v${HTMLTEST_VERSION} as validate-upstream
+WORKDIR /test
+COPY --from=build-upstream /out ./public
+ADD .htmltest.yml .htmltest.yml
+RUN htmltest
+
+FROM dev

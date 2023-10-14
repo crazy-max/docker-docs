@@ -148,3 +148,13 @@ target "vendor" {
   }
   output = ["."]
 }
+
+target "validate-upstream" {
+  args {
+    MODULE_NAME = ""
+    REPO = ""
+    COMMIT = ""
+  }
+  target = "validate-upstream"
+  output = ["type=cacheonly"]
+}
