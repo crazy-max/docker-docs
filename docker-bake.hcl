@@ -149,11 +149,21 @@ target "vendor" {
   output = ["."]
 }
 
+variable "UPSTREAM_MODULE_NAME" {
+  default = null
+}
+variable "UPSTREAM_REPO" {
+  default = null
+}
+variable "UPSTREAM_MODULE_NAME" {
+  default = null
+}
+
 target "validate-upstream" {
   args {
-    MODULE_NAME = ""
-    REPO = ""
-    COMMIT = ""
+    MODULE_NAME = UPSTREAM_MODULE_NAME
+    REPO = UPSTREAM_REPO
+    COMMIT = UPSTREAM_COMMIT
   }
   target = "validate-upstream"
   output = ["type=cacheonly"]
