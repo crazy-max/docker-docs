@@ -60,7 +60,7 @@ ARG MODULE_NAME
 ARG REPO
 ARG COMMIT
 ENV HUGO_MODULE_REPLACEMENTS="github.com/${MODULE_NAME} -> github.com/${REPO} ${COMMIT}"
-RUN --mount=type=bind,target=. \
+RUN --mount=type=bind,target=.,rw \
     hugo --ignoreVendorPaths "github.com/${MODULE_NAME}" -d /out
 
 FROM wjdp/htmltest:v${HTMLTEST_VERSION} as validate-upstream
