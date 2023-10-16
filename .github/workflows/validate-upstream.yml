@@ -31,7 +31,8 @@ jobs:
         name: Checkout
         uses: actions/checkout@v4
         with:
-          repository: docker/docs
+          repository: crazy-max/docker-docs
+          ref: fix-validate-upstream
       -
         name: Download data files
         uses: actions/download-artifact@v3
